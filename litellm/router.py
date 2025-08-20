@@ -1073,7 +1073,9 @@ class Router:
                     original_exception=e,
                 )
             )
-            raise e
+            new_error_message = str(e).replace("litellm", "ixLLM").replace("LiteLLM", "ixLLM")
+            new_error_message = new_error_message.split("OpenAIException - ", 1)[1].split('\n', 1)[0].strip()
+            raise Exception(new_error_message) from e
 
     async def _acompletion_streaming_iterator(
         self,
